@@ -6,6 +6,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
+#include <iostream>
+#include <fstream>
+
+using namespace std;
 
 struct node
 {
@@ -350,6 +354,18 @@ int main()
 {
     bool found = false;
     struct node *root = NULL;
+    string line;
+    ifstream inputFile("AVLtree-input.txt");
+
+    // Reading input file
+    inputFile.open("AVLtree-input", ifstream::in);
+    if (inputFile.is_open())
+    {
+        while (getline(inputFile, line))
+            cout << line << endl;
+        inputFile.close();
+    }
+    else cout << "Unable to open file" << endl;
 
     // Construct Tree
     root = insert(root, 9);
@@ -412,7 +428,7 @@ int main()
 
     printf("\n%d\n", select(root, 2));
     printf("\n%d\n", select(root, 3));
-    printf("\n%d\n", select(root, 4));
+
 
 
 
