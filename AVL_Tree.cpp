@@ -1,13 +1,15 @@
-//=====================================
-//    Implementation of AVL Tree
-//    Time Complexity : O(logn)
-//=====================================
+//=========================================
+//      Implementation of AVL Tree
+//      Time Complexity : O(logn)
+//               Problem #3
+//  @authors: Jarrod Rotolo / Caleb Ledger
+//=========================================
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string>
 #include <iostream>
 #include <fstream>
+#include "timer.h"
 
 using namespace std;
 
@@ -325,7 +327,6 @@ void inOrderTraversal(struct node *root)
 //-----------------------------------------------------------------
 // Returns the rank/position of element i in the linear order
 // deteremined by inorder traversal of the tree
-// WARNING: NOT WORKING FOR ALL INPUTS....
 //-----------------------------------------------------------------
 int rank(struct node *x, int i)
 {
@@ -337,8 +338,7 @@ int rank(struct node *x, int i)
 }
 
 //-----------------------------------------------------------------
-// Returns the element containing the ith smallest key in a tree
-// WARNIING: NOT WORKING FOR ALL INPUTS...
+// Returns the element containing the ith smallest key in a tree.
 //-----------------------------------------------------------------
 int select(struct node *x, int i)
 {
@@ -352,86 +352,66 @@ int select(struct node *x, int i)
 
 int main()
 {
+    const int SIZE = 3;
+    int num;
+    char input[SIZE];
     bool found = false;
     struct node *root = NULL;
-    string line;
-    ifstream inputFile("AVLtree-input.txt");
+    struct node *currentNode = NULL;
+    ifstream inputFile;
+    CStopWatch timer;
 
-    // Reading input file
-    inputFile.open("AVLtree-input", ifstream::in);
-    if (inputFile.is_open())
+    inputFile.open("AVLtree-input");
+    if (!inputFile.is_open())
+        cout << "ERROR: File cannont be opened" << endl;
+
+    timer.startTimer();
+
+    // Reads the data from the input file
+    while (!inputFile.eof())
     {
-        while (getline(inputFile, line))
-            cout << line << endl;
-        inputFile.close();
+        inputFile >> input;
+        if (input[0] == 'I')
+        {
+            inputFile >> input;
+            num = atoi(input);
+            root = insert(root, num);
+        } 
+        else if (input[0] == 'P')
+            cout << predecessor(root)->key << " //PR" << endl;
+        else if (input[0] == 'S' && input[1] == 'C')
+            cout << successor(root)->key << " //SC" << endl;
+        else if (input[0] == 'S' && input[1] == 'E')
+        {
+            inputFile >> input;
+            num = atoi(input);
+            cout << num << " //SE" << endl;
+        }
+        else if (input[0] == 'S' && input[1] == 'R')
+        {
+            inputFile >> input;
+            num = atoi(input);
+            cout << num << " //SR" << endl;
+        }
+        else if (input[0] == 'M' && input[1] == 'I')
+            cout << minNode(root)->key << " //MI" << endl;  
+        else if (input[0] == 'M' && input[1] == 'A')
+            cout << maxNode(root)->key << " //MA" << endl; 
+        else if (input[0] == 'T' && input[1] == 'R')
+        {
+            inOrderTraversal(root); 
+            cout << " //TR" << endl;
+        }
+        else if (input[0] == 'R' && input[1] == 'A')
+        {
+            inputFile >> input;
+            num = atoi(input);
+            cout << num << " //RA" << endl;
+        }
     }
-    else cout << "Unable to open file" << endl;
 
-    // Construct Tree
-    root = insert(root, 9);
-    root = insert(root, 5);
-    root = insert(root, 10);
-    root = insert(root, 0);
-    root = insert(root, 6);
-    root = insert(root, 11);
-    root = insert(root, -1);
-    root = insert(root, 1);
-    root = insert(root, 2);
-
-    printf("Pre order traversal of AVL tree is \n");
-    preOrderTraversal(root);
-    printf("\nIn order traversal of AVL tree is \n");
-    inOrderTraversal(root);
-
-    /* AVL Tree after inserts
-
-                  9
-                 / \
-                1   10
-               / \    \
-              0   5    11
-             /   / \
-            -1  2   6
-
-    */
-
-    root = deleteNode(root, 10);
-    printf("\nPre order traversal after deletion \n");
-    preOrderTraversal(root);
-
-    /* AVL Tree after deletion
-
-                  1
-                 / \
-                0   9
-               /   / \
-             -1   5   11
-                 / \
-                2   6
-
-    */
-
-    printf("\n");
-    found = search(root, 7);
-    printf("Search for 7 = ");
-    printf(found ? "Number found!" : "Number not found!");
-
-    printf("\n");
-    found = search(root, 11);
-    printf("Search for 11 = ");
-    printf(found ? "Number found!" : "Number not found!");
-
-    printf("%d", rank(root, 0));
-    printf("%d", rank(root, 1));
-    // NOT WORKING..... printf("%d", rank(root, 2));
-
-
-    printf("\n%d\n", select(root, 2));
-    printf("\n%d\n", select(root, 3));
-
-
-
-
-
+    timer.stopTimer();
+    cout << timer.getElapsedTime() << " micro-sec" << endl;
+    
     return 0;
 }
