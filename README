@@ -2,3 +2,5 @@ This is a repository for various algorithm implemenations.
 
 Current algorithms:
  - AVL Tree
+ - RadixSort vs Quicksort
+ - Min Heap
