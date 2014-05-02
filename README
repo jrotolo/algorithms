@@ -1,6 +1,10 @@
 This is a repository for various algorithm implemenations.
 
 Current algorithms:
- - AVL Tree
+=======================================
  - RadixSort vs Quicksort
+ - Crazy Sort
+ - Merge Sort
+ - Selection Sort
+ - Insertion Sort
  - Min Heap
