@@ -1,7 +1,8 @@
 This is a repository for various algorithm implemenations.
 
-Current algorithms:
+Current algorithms implemented:
 =======================================
+ - AVL Tree
  - RadixSort vs Quicksort
  - Crazy Sort
  - Merge Sort
